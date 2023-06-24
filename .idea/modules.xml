@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/alphacue_vet_doc.iml" filepath="$PROJECT_DIR$/alphacue_vet_doc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/alphacue_vet_doc_android.iml" filepath="$PROJECT_DIR$/android/alphacue_vet_doc_android.iml" />
     </modules>
   </component>
 </project>

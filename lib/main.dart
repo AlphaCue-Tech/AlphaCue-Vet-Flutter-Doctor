@@ -1,115 +1,186 @@
+
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:alphacue_vet_doc/home_page.dart';
+import 'package:alphacue_vet_doc/language/language_selection.dart';
+import 'package:alphacue_vet_doc/language/languages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  runApp(Home());
+}
+class Home extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _HomeState();
+  }
+
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _HomeState extends State<Home>{
 
-  // This widget is the root of your application.
+  final sharedpreff = GetStorage();
+
+ @override
+   initState()  {
+    // TODO: implement initState
+    super.initState();
+    if(sharedpreff.read("lng")=="BD"){
+      Get.updateLocale( Locale('bn','BD'));
+    }
+    else{
+      Get.updateLocale( Locale('en','US'));
+    }
+   // initPlatform();
+ }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    // TODO: implement build
+    return GetMaterialApp(
+      title: "",
+      translations: Languages(),
+    //  locale: Locale('bn','BD'),
+     // fallbackLocale:Locale('bn','BD'),
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+         // fontFamily: GoogleFonts.tinos().fontFamily,
+          primarySwatch: Colors.cyan,
+          primaryColor:Color.fromRGBO(76,84,76,1) ,
+          //primaryColor:Color.fromRGBO(227,173,44,1) ,
+          canvasColor:Color.fromRGBO(227,173,44,1)  ,
+          hintColor: Color.fromRGBO(74,76,108, 1),
+          highlightColor: Colors.white,
+          backgroundColor: Color.fromRGBO(255,255,255, 1)
+
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+
+      sharedpreff.read("access")==null?LanguageSelectionPage():HomePage(),
+
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetMaterialApp(
+//       translations: Languages(),
+//       locale: Locale('bn','BD'),
+//       fallbackLocale:Locale('bn','BD'),
+//       title: 'app_name'.tr,
+//       theme: ThemeData(
+//
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const MyHomePage(title: "app_name"),
+//
+//     );
+//   }
+// }
+//
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+//
+//   // This widget is the home page of your application. It is stateful, meaning
+//   // that it has a State object (defined below) that contains fields that affect
+//   // how it looks.
+//
+//   // This class is the configuration for the state. It holds the values (in this
+//   // case the title) provided by the parent (in this case the App widget) and
+//   // used by the build method of the State. Fields in a Widget subclass are
+//   // always marked "final".
+//
+//   final String title;
+//
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//   int _counter = 0;
+//
+//   void _incrementCounter() {
+//     setState(() {
+//
+//       _counter++;
+//     });
+//   }
+//   void _dec(){
+//     setState(() {
+//
+//       _counter--;
+//     });
+//
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // This method is rerun every time setState is called, for instance as done
+//     // by the _incrementCounter method above.
+//     //
+//     // The Flutter framework has been optimized to make rerunning build methods
+//     // fast, so that you can just rebuild anything that needs updating rather
+//     // than having to individually change instances of widgets.
+//     return Scaffold(
+//       appBar: AppBar(
+//         // Here we take the value from the MyHomePage object that was created by
+//         // the App.build method, and use it to set our appbar title.
+//         title: Text("app_name".tr),
+//       ),
+//       body: Center(
+//         // Center is a layout widget. It takes a single child and positions it
+//         // in the middle of the parent.
+//         child: Column(
+//
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             const Text(
+//               'You have pushed the button this many times:',
+//             ),
+//             Text(
+//               '$_counter',
+//               style: Theme.of(context).textTheme.headlineMedium,
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: Row(
+//         children: <Widget>[
+//           FloatingActionButton(
+//             onPressed: _incrementCounter,
+//             tooltip: 'Increment',
+//             child: const Icon(Icons.add),
+//           ),
+//           FloatingActionButton(
+//             onPressed: _dec,
+//             tooltip: 'Increment',
+//             child: const Icon(Icons.remove),
+//           ),
+//         ],
+//       ) // This trailing comma makes auto-formatting nicer for build methods.
+//     );
+//   }
+// }
