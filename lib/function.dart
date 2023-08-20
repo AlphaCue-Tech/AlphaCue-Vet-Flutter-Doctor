@@ -11,7 +11,11 @@ Future<String> verifyPhnToken(String serial,String device, String name) async {
 
   String json = '{"serial": "'+serial+'","device":"'+device+'","name": "'+name+'"}';
   print(json);
-  var response = await http.post(Uri.parse(url),  headers: headers,body: json);
+  var response = await http.post(Uri.parse(url),  headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
 
   String body = response.body.toString();
   print(body);
@@ -25,7 +29,11 @@ Future<String> sendPhnToken(String phn,String serial, String token) async {
 
   String json = '{"phone": "'+phn+'","serial":"'+serial+'","token": "'+token+'"}';
   print(json);
-  var response = await http.post(Uri.parse(url),  headers: headers,body: json);
+  var response = await http.post(Uri.parse(url),  headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
 
   String body = response.body.toString();
   print(body);
@@ -39,7 +47,11 @@ Future<String> verifyPhnOtp(String phn,String otp ) async {
 
   String json = '{"phone": "'+phn+'","otp":"'+otp+'"}';
   print(json);
-  var response = await http.post(Uri.parse(url),  headers: headers,body: json);
+  var response = await http.post(Uri.parse(url),  headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
 
   String body = response.body.toString();
   return body;
@@ -54,7 +66,11 @@ Future<String> getVideoToken(String token,  String name,String uid,String role,S
   String json = '{"channelName":"'+name+'", "uid":"'+ uid +'","role":"'+ role +'","privilegeExpiredTs":"'+ ts +'"}';
 
   print(json);
-  var response = await http.post(Uri.parse(url), headers: headers, body: json);
+  var response = await http.post(Uri.parse(url), headers: headers, body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   print(response);
   String body = response.body.toString();
   print(body);
@@ -70,7 +86,11 @@ Future<String> makeLogin(String phnno,String fid,String otp) async {
   //String phn=phnno.substring(3);
   String json = '{"phone":"'+phnno+'", "firebase_id":"'+ fid +'","otp":"'+ otp +'"}';
   print(json);
-  var response = await http.post(Uri.parse(url), headers: headers, body: json);
+  var response = await http.post(Uri.parse(url), headers: headers, body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   print(response);
   String body = response.body.toString();
   return body;
@@ -87,7 +107,11 @@ Future<String> getAppointmentList(String token) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -102,7 +126,11 @@ Future<String> getAppointment(String token,int id) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -118,7 +146,11 @@ Future<String> getStudy(String token) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -133,7 +165,11 @@ Future<String> getStudyItem(String token,int id) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -149,7 +185,11 @@ Future<String> studyItemDelete(String token,int id) async {
 
 
   print(json);
-  var response = await http.delete(Uri.parse(url), headers: headers);
+  var response = await http.delete(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -166,7 +206,11 @@ Future<String> studyItemUpdate(String token,int id,String insti,String sub,Strin
 
 
   print(json);
-  var response = await http.put(Uri.parse(url), headers: headers,body: json);
+  var response = await http.put(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -183,7 +227,11 @@ Future<String> studyItemUpAdd(String token,int id,String insti,String sub,String
 
 
   print(json);
-  var response = await http.post(Uri.parse(url), headers: headers,body: json);
+  var response = await http.post(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -198,7 +246,11 @@ Future<String> getTimeSlot(String token) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -213,7 +265,11 @@ Future<String> getTimeSlotItem(String token,int id) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -228,7 +284,11 @@ Future<String> TimeSlotItemDelete(String token,int id) async {
 
 
   print(json);
-  var response = await http.delete(Uri.parse(url), headers: headers);
+  var response = await http.delete(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -244,7 +304,11 @@ Future<String> TimeSlotItemUpdate(String token,int id,String slot,String weekday
 
 
   print(json);
-  var response = await http.put(Uri.parse(url), headers: headers,body: json);
+  var response = await http.put(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -260,7 +324,11 @@ Future<String> TimeSlotItemAdd(String token,String slot,String weekday) async {
 
 
   print(json);
-  var response = await http.post(Uri.parse(url), headers: headers,body: json);
+  var response = await http.post(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -275,7 +343,11 @@ Future<String> getExperience(String token) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -290,7 +362,11 @@ Future<String> getExperienceItem(String token,int id) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -305,7 +381,11 @@ Future<String> ExperienceItemDelete(String token,int id) async {
 
 
 
-  var response = await http.delete(Uri.parse(url), headers: headers);
+  var response = await http.delete(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -321,7 +401,11 @@ Future<String> ExperienceItemUpdate(String token,int id,String insti,String titl
 
 
   print(json);
-  var response = await http.put(Uri.parse(url), headers: headers,body: json);
+  var response = await http.put(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -337,7 +421,11 @@ Future<String> ExperienceItemAdd(String token,String insti,String title,String f
 
 
   print(json);
-  var response = await http.post(Uri.parse(url), headers: headers,body: json);
+  var response = await http.post(Uri.parse(url), headers: headers,body: json).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -353,7 +441,11 @@ Future<String> makePrescription(String token,String parse) async {
   //String phn=phnno.substring(3);
   //String json = '{"phone":"'+phnno+'", "firebase_id":"'+ fid +'","otp":"'+ otp +'"}';
   //print(json);
-  var response = await http.post(Uri.parse(url), headers: headers, body: parse);
+  var response = await http.post(Uri.parse(url), headers: headers, body: parse).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   print(response);
   String body = response.body.toString();
   return body;
@@ -371,7 +463,11 @@ Future<String> getPrescriptionView(String token,String id) async {
 
 
   print(url);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   //print(response);
   String body = response.body.toString();
   //print(body);
@@ -386,7 +482,11 @@ Future<String> getPrescriptionData(String token) async {
   //String phn=phnno.substring(3);
   //String json = '{"phone":"'+phnno+'", "firebase_id":"'+ fid +'","otp":"'+ otp +'"}';
   //print(json);
-  var response = await http.get(Uri.parse(url), headers: headers);
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+      onTimeout: (){
+        return http.Response('{"msg":"error"}'.toString(), 408);
+      }
+  );
   print(response);
   String body = response.body.toString();
   return body;

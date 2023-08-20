@@ -74,189 +74,207 @@ class ExperienceAddState extends  State<ExperienceAdd>{
     return Scaffold(
       backgroundColor: Theme.of(context).highlightColor,
       resizeToAvoidBottomInset: false,
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          Container(
-              width: width,
-              height: height/10,
-              color: Theme.of(context).primaryColor,
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-              )
-            //Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
-          ),
-          Container(
-            width: width,
-            height: height-height/10,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Flex(
-                  direction: Axis.vertical,
-                  children:[
-                  //  const SizedBox(height: 20,),
-
-
-                    // EducationAddItem(),
-                    // const SizedBox(height: 20,),
-                    // EducationAddItem(),
-                    // const SizedBox(height: 20,),
-                    Column(
-                      children: List.generate(d.length, (index) {
-
-                        return Column(
-                          children: [
-                            const SizedBox(height: 20,),
-                            ExperienceAddItem(d[index]["id"],d[index]["institution_name"]
-                                ,d[index]["job_title"],d[index]["job_from"],d[index]["job_to"]),
-                            const SizedBox(height: 20,),
-                          ],
-                        );
-                      }),
+      body: SafeArea(
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            Container(
+                width: width,
+                height: height/12,
+                color: Theme.of(context).primaryColor,
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
                     ),
-                    Column(
-                      children: List.generate(item.length, (index) {
-
-                        return  Column(
-                          children: [
-                            const SizedBox(height: 10,),
-                            item.elementAt(index),
-                            const SizedBox(height: 10,),
-                            savePress?
-                            LoadingAnimationWidget.staggeredDotsWave(
-                              color: Theme.of(context).primaryColor,
-                              size: 50,
-                            )
-                            :ElevatedButton(
-
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  shape: StadiumBorder(),
-                                  shadowColor: Colors.black,
+                    Text("Experiences".tr,style: TextStyle(
+                        fontSize: 25,
+                        color: Theme.of(context).highlightColor,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic
 
 
-                                ),
-                                onPressed: () async{
-
-
-
-                                  if(item.elementAt(index).institution.text.toString().length!=0 &&
-                                      item.elementAt(index).jobTitle.text.toString().length!=0 &&
-                                      item.elementAt(index).jobFrom.toString().length!=0 &&
-                                      item.elementAt(index).jobTo.toString().length!=0 ){
-
-
-                                    var connectivityResult = await (Connectivity().checkConnectivity());
-                                    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
-                                      setState(() {
-                                        savePress=true;
-                                      });
-                                      try{
-                                        ExperienceItemAdd(sharedpreff.read("access"),
-                                            item.elementAt(index).institution.text,item.elementAt(index).jobTitle.text
-                                        ,item.elementAt(index).jobFrom,item.elementAt(index).jobTo
-                                        ).then((value) {
-                                          var d=jsonDecode(value);
-                                          if(d["msg"]=="Experience Added"){
-
-                                            Navigator.pop(context);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) => ExperienceAdd()),
-                                            );
-
-
-
-                                          }
-                                        });
-                                      }catch(er){
-                                        setState(() {
-                                          savePress=false;
-                                        });
-                                        sharedpreff.erase();
-                                        errorShow(context, "something went wrong");
-                                        Navigator.of(context).pop();
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => LoginPage()),
-                                        );
-                                        errorShow(context, "something went wrong");
-                                      }
-                                    }else{
-                                      errorShow(context, "No Network");
-                                    }
-                                  }
-                                  else{
-                                    errorShow(context, "Fillup the field");
-                                  }
-
-
-                                },
-                                child: Text("save".tr,style: TextStyle(color:Theme.of(context).highlightColor, fontSize: 20),)
-                            )
-
-                          ],
-                        );
-                      }),
-
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Visibility(
-                          visible: AddnewV,
-                          child:  IconButton(
-
-                              onPressed: (){
-
-                                setState(() {
-                                  item.add(new ExperienceItemNew());
-                                  AddnewV=false;
-                                  SubnewV=true;
-                                  //widget.text.add(new PetRegistrationPage(widget.pets));
-                                });
-                              }, icon: Icon(Icons.add_circle_outline_sharp,color:Theme.of(context).primaryColor ,)
-                          ),
-                        ),
-
-                        Visibility(
-                          visible: SubnewV,
-                          child:IconButton(
-
-                              onPressed: (){
-
-                                setState(() {
-                                  if(!item.isEmpty){
-                                    item.removeLast();
-                                    SubnewV=false;
-                                    AddnewV=true;
-                                  }
-
-                                  //widget.text.add(new PetRegistrationPage(widget.pets));
-                                });
-                              }, icon: Icon(Icons.remove,color:Theme.of(context).primaryColor ,)
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20,),
-                    const SizedBox(height: 20,),
-                    const SizedBox(height: 20,),
-                    const SizedBox(height: 300,),
-
-
-
-                  ]
-              ),
+                    ),),
+                  ],
+                )
+              //Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
             ),
-          )
-        ],
-      ),
+            Expanded(
+                child: Container(
+                  width: width,
+                  //height: height-height/10,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Flex(
+                        direction: Axis.vertical,
+                        children:[
+                          //  const SizedBox(height: 20,),
+
+
+                          // EducationAddItem(),
+                          // const SizedBox(height: 20,),
+                          // EducationAddItem(),
+                          // const SizedBox(height: 20,),
+                          Column(
+                            children: List.generate(d.length, (index) {
+
+                              return Column(
+                                children: [
+                                  const SizedBox(height: 20,),
+                                  ExperienceAddItem(d[index]["id"],d[index]["institution_name"]
+                                      ,d[index]["job_title"],d[index]["job_from"],d[index]["job_to"]),
+                                  const SizedBox(height: 20,),
+                                ],
+                              );
+                            }),
+                          ),
+                          Column(
+                            children: List.generate(item.length, (index) {
+
+                              return  Column(
+                                children: [
+                                  const SizedBox(height: 10,),
+                                  item.elementAt(index),
+                                  const SizedBox(height: 10,),
+                                  savePress?
+                                  LoadingAnimationWidget.staggeredDotsWave(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 50,
+                                  )
+                                      :ElevatedButton(
+
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(context).primaryColor,
+                                        shape: StadiumBorder(),
+                                        shadowColor: Colors.black,
+
+
+                                      ),
+                                      onPressed: () async{
+
+
+
+                                        if(item.elementAt(index).institution.text.toString().length!=0 &&
+                                            item.elementAt(index).jobTitle.text.toString().length!=0 &&
+                                            item.elementAt(index).jobFrom.toString().length!=0 &&
+                                            item.elementAt(index).jobTo.toString().length!=0 ){
+
+
+                                          var connectivityResult = await (Connectivity().checkConnectivity());
+                                          if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+                                            setState(() {
+                                              savePress=true;
+                                            });
+                                            try{
+                                              ExperienceItemAdd(sharedpreff.read("access"),
+                                                  item.elementAt(index).institution.text,item.elementAt(index).jobTitle.text
+                                                  ,item.elementAt(index).jobFrom,item.elementAt(index).jobTo
+                                              ).then((value) {
+                                                var d=jsonDecode(value);
+                                                if(d["msg"]=="Experience Added"){
+
+                                                  Navigator.pop(context);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => ExperienceAdd()),
+                                                  );
+
+
+
+                                                }
+                                              });
+                                            }catch(er){
+                                              setState(() {
+                                                savePress=false;
+                                              });
+                                              sharedpreff.erase();
+                                              errorShow(context, "something went wrong");
+                                              Navigator.of(context).pop();
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => LoginPage()),
+                                              );
+                                              errorShow(context, "something went wrong");
+                                            }
+                                          }else{
+                                            errorShow(context, "No Network");
+                                          }
+                                        }
+                                        else{
+                                          errorShow(context, "Fillup the field");
+                                        }
+
+
+                                      },
+                                      child: Text("save".tr,style: TextStyle(color:Theme.of(context).highlightColor, fontSize: 20),)
+                                  )
+
+                                ],
+                              );
+                            }),
+
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Visibility(
+                                visible: AddnewV,
+                                child:  IconButton(
+
+                                    onPressed: (){
+
+                                      setState(() {
+                                        item.add(new ExperienceItemNew());
+                                        AddnewV=false;
+                                        SubnewV=true;
+                                        //widget.text.add(new PetRegistrationPage(widget.pets));
+                                      });
+                                    }, icon: Icon(Icons.add_circle_outline_sharp,color:Theme.of(context).primaryColor ,)
+                                ),
+                              ),
+
+                              Visibility(
+                                visible: SubnewV,
+                                child:IconButton(
+
+                                    onPressed: (){
+
+                                      setState(() {
+                                        if(!item.isEmpty){
+                                          item.removeLast();
+                                          SubnewV=false;
+                                          AddnewV=true;
+                                        }
+
+                                        //widget.text.add(new PetRegistrationPage(widget.pets));
+                                      });
+                                    }, icon: Icon(Icons.remove,color:Theme.of(context).primaryColor ,)
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
+                          const SizedBox(height: 300,),
+
+
+
+                        ]
+                    ),
+                  ),
+                )
+            )
+
+          ],
+        ) ,
+      )
+     ,
     );
   }
 

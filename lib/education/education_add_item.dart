@@ -55,7 +55,9 @@ class EducationAddItemState extends State<EducationAddItem>{
 
               children: [
 
-                Text(widget.institution,style:TextStyle(color: Theme.of(context).highlightColor,fontSize: 20,fontWeight: FontWeight.bold),),
+                Flexible(
+                    child: Text(widget.institution,style:TextStyle(color: Theme.of(context).highlightColor,fontSize: 20,fontWeight: FontWeight.bold),),
+                )
               ],
             ),
 

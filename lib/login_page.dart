@@ -107,6 +107,7 @@ class _LoginPageState extends State<LoginPage>{
 
                                   ),
                                   onPressed: () async{
+                                    FocusScope.of(context).unfocus();
                                     print(phoneNumber.text);
                                     if(phoneNumber.text.length==11){
 
@@ -131,7 +132,7 @@ class _LoginPageState extends State<LoginPage>{
                                           verifyPhnToken(sharedpreff.read("serial"),sharedpreff.read("device"),sharedpreff.read("name")).then((value) {
                                             var d=jsonDecode(value);
                                             print(d.toString());
-                                            if(d["token"]!=null){
+                                            if(d["token"]!=null ){
 
                                               sendPhnToken(phn, sharedpreff.read("serial"), d["token"]).then((value1){
                                                 var c=jsonDecode(value1);
@@ -167,10 +168,11 @@ class _LoginPageState extends State<LoginPage>{
                                           });
                                         }
                                         catch(er){
-                                           print(er);
+                                           errorShow(context, "Something Went Wrong");
                                         }
 
-                                      } else if (connectivityResult == ConnectivityResult.wifi) {
+                                      }
+                                      else if (connectivityResult == ConnectivityResult.wifi) {
                                         // I am connected to a wifi network.
                                         // AuthenticationRepository.instance.phoneauth(phn).then((value) {
                                         //   Navigator.pop(context);
@@ -218,7 +220,7 @@ class _LoginPageState extends State<LoginPage>{
                                           });
                                        }
                                        catch(er){
-                                          print(er);
+                                         errorShow(context, "Something Went Wrong");
                                         }
                                       }
                                       else{
@@ -253,32 +255,6 @@ class _LoginPageState extends State<LoginPage>{
                                       //try{
 
                                     }
-                                    // // catch(er){
-                                    //    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                                    //        duration: const Duration(seconds: 4),
-                                    //
-                                    //        backgroundColor: Theme.of(context).primaryColor,
-                                    //        content: Container(
-                                    //          //height: height/3,
-                                    //          //margin: EdgeInsets.only(left: 10,right: 10),
-                                    //          width: width,
-                                    //          padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 20),
-                                    //          decoration:  BoxDecoration(
-                                    //
-                                    //              color:Theme.of(context).primaryColor,
-                                    //
-                                    //              borderRadius: BorderRadius.all(Radius.circular(15))
-                                    //          ),
-                                    //          child: Column(
-                                    //            children: [
-                                    //              Text("Something went wrong",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:Theme.of(context).hintColor,),),
-                                    //              const SizedBox(height: 10,),
-                                    //
-                                    //            ],
-                                    //          ),
-                                    //        )
-                                    //    ));
-                                    //  }
 
 
 

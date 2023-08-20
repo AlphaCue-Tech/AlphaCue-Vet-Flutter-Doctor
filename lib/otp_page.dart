@@ -141,90 +141,17 @@ class _OtpPageState extends State<OtpPage>{
 
                                   ),
                                   onPressed: () async {
-
+                                    FocusScope.of(context).unfocus();
                                     setState(() {
                                       otpEnterButtonPress=true;
                                     });
 
                                     var connectivityResult = await (Connectivity().checkConnectivity());
-                                    if (connectivityResult == ConnectivityResult.mobile) {
-                                      verifyPhnOtp(widget.phonenumber,phoneNumberOtp.text ).then((value1) {
-                                        var d=jsonDecode(value1);
-                                        if(d["msg"]==null){
-                                          setState(() {
-                                            otpEnterButtonPress=false;
-                                          });
-                                          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                                              duration: const Duration(seconds: 2),
-
-                                              backgroundColor: Theme.of(context).primaryColor,
-                                              content: Container(
-                                                //height: height/3,
-                                                //margin: EdgeInsets.only(left: 10,right: 10),
-                                                width: width,
-                                                padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 20),
-                                                decoration:  BoxDecoration(
-
-                                                    color:Theme.of(context).primaryColor,
-
-                                                    borderRadius: BorderRadius.all(Radius.circular(15))
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Text("validation failed",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:Theme.of(context).hintColor,),),
-                                                    const SizedBox(height: 10,),
-
-                                                  ],
-                                                ),
-                                              )
-                                          ));
-                                        }
-                                        else{
-                                          print("objectddddddddddddddddddd");
-                                          sharedpreff.write("access", d["access"]);
-                                          sharedpreff.write("id", d["user"]["id"].toString());
-
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => HomePage()),
-                                          );
-                                        }
-                                      });
-                                    } else if (connectivityResult == ConnectivityResult.wifi) {
+                                     if (connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.mobile) {
                                       verifyPhnOtp(widget.phonenumber,phoneNumberOtp.text ).then((value1) {
                                         var d=jsonDecode(value1);
                                         print(d.toString());
-                                        if(d["msg"]==null){
-                                          setState(() {
-                                            otpEnterButtonPress=false;
-                                          });
-                                          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                                              duration: const Duration(seconds: 2),
-
-                                              backgroundColor: Theme.of(context).primaryColor,
-                                              content: Container(
-                                                //height: height/3,
-                                                //margin: EdgeInsets.only(left: 10,right: 10),
-                                                width: width,
-                                                padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 20),
-                                                decoration:  BoxDecoration(
-
-                                                    color:Theme.of(context).primaryColor,
-
-                                                    borderRadius: BorderRadius.all(Radius.circular(15))
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Text("validation failed",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:Theme.of(context).hintColor,),),
-                                                    const SizedBox(height: 10,),
-
-                                                  ],
-                                                ),
-                                              )
-                                          ));
-                                        }
-                                        else{
+                                        if(d["msg"]!=null){
                                           print("objectddddddddddddddddddd");
                                           sharedpreff.write("access", d["access"]);
                                           sharedpreff.write("id", d["user"]["id"]);
@@ -234,6 +161,36 @@ class _OtpPageState extends State<OtpPage>{
                                             context,
                                             MaterialPageRoute(builder: (context) => HomePage()),
                                           );
+
+                                        }
+                                        else{
+                                          setState(() {
+                                            otpEnterButtonPress=false;
+                                          });
+                                          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                                              duration: const Duration(seconds: 2),
+
+                                              backgroundColor: Theme.of(context).primaryColor,
+                                              content: Container(
+                                                //height: height/3,
+                                                //margin: EdgeInsets.only(left: 10,right: 10),
+                                                width: width,
+                                                padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 20),
+                                                decoration:  BoxDecoration(
+
+                                                    color:Theme.of(context).primaryColor,
+
+                                                    borderRadius: BorderRadius.all(Radius.circular(15))
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Text("validation failed",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:Theme.of(context).hintColor,),),
+                                                    const SizedBox(height: 10,),
+
+                                                  ],
+                                                ),
+                                              )
+                                          ));
                                         }
                                       });
                                     }

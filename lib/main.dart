@@ -66,7 +66,8 @@ class _HomeState extends State<Home>{
           primarySwatch: Colors.cyan,
           primaryColor:Color.fromRGBO(76,84,76,1) ,
           //primaryColor:Color.fromRGBO(227,173,44,1) ,
-          canvasColor:Color.fromRGBO(227,173,44,1)  ,
+         canvasColor:Color.fromRGBO(227,173,44,1)  ,
+          //canvasColor:Color.fromRGBO(76,84,76,1)  ,
           hintColor: Color.fromRGBO(74,76,108, 1),
           highlightColor: Colors.white,
           backgroundColor: Color.fromRGBO(255,255,255, 1)

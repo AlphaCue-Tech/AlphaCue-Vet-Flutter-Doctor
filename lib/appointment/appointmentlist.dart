@@ -27,6 +27,7 @@ List<dynamic>? appointments;
    getAppointmentList(sharedpreff.read("access"))
        .then((value) {
 
+
      setState(() {
        d=jsonDecode(value);
        appointments= d != null ? List.from(d) : null;
@@ -36,13 +37,7 @@ List<dynamic>? appointments;
 
    });
  }catch(er){
-   sharedpreff.erase();
-   errorShow(context, "something went wrong");
-   Navigator.of(context).pop();
-   Navigator.push(
-     context,
-     MaterialPageRoute(builder: (context) => LoginPage()),
-   );
+   errorShow(context, "Something went Wrong");
  }
   }
 
@@ -68,45 +63,63 @@ List<dynamic>? appointments;
     }
    else{
       return Scaffold(
-        body: Column(
-          children: [
-            Container(
-                width: width,
-                height: height/10,
-                color: Theme.of(context).primaryColor,
-                alignment: Alignment.centerLeft,
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                )
-              //Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
-            ),
-            Container(
-              color: Theme.of(context).highlightColor,
-              width: width,
-              height: height-height/10,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: List.generate(appointments!.length, (index) {
+        body:SafeArea(
+          child:  Column(
+            children: [
+              Container(
+                  width: width,
+                  height: height/12,
+                  color: Theme.of(context).primaryColor,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Text("Appointments".tr,style: TextStyle(
+                          fontSize: 25,
+                          color: Theme.of(context).highlightColor,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.italic
 
-                    return Column(
-                      children: [
-                        const SizedBox(height:  20),
 
-                        ListItem(appointments![index]["id"],appointments![index]["patient_type"]
-                            ,appointments![index]["date"],appointments![index]["time"]
-                        ),
-                        const SizedBox(height:  20),
-                      ],
-                    );
-                  }),
-                ),
+                      ),),
+
+                    ],
+                  )
+                //Icon(Icons.arrow_back,size: 30,color: Theme.of(context).highlightColor,),
               ),
-            )
-          ],
-        ),
+              Expanded(
+                  child:  Container(
+                    color: Theme.of(context).highlightColor,
+                    width: width,
+                    // height: height-height/12,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(appointments!.length, (index) {
+
+                          return Column(
+                            children: [
+                              const SizedBox(height:  20),
+
+                              ListItem(appointments![index]["id"],appointments![index]["patient_type"]
+                                  ,appointments![index]["date"],appointments![index]["time"]
+                              ),
+                              const SizedBox(height:  20),
+                            ],
+                          );
+                        }),
+                      ),
+                    ),
+                  )
+              )
+
+            ],
+          ),
+        )
       );
     }
   }
