@@ -32,6 +32,7 @@ class ChatDetailsState extends State<ChatDetails>{
   int chatseen=0;
   final sharedpreff=GetStorage();
   var commentsRef,commentsRef1,commentsRef2;
+  bool vidCallButtonPress=false;
   @override
   void initState() {
     // TODO: implement initState
@@ -104,13 +105,14 @@ class ChatDetailsState extends State<ChatDetails>{
                       Navigator.pop(context);
                     },
                   ),
-
+                  vidCallButtonPress==false?
                   IconButton(
                       onPressed: () async {
                         // Navigator.pop(context);
 
                         setState(() {
                           msg.text="";
+                          vidCallButtonPress=true;
                         });
                         //Navigator.pop(context);
 
@@ -119,7 +121,11 @@ class ChatDetailsState extends State<ChatDetails>{
                           var d=jsonDecode(value);
                           print(d.toString());
                           var dt = DateTime.now();
-                          String time=dt.hour.toString()+":"+dt.minute.toString();
+
+                          String h=dt.hour.toString().length==1? "0"+dt.hour.toString(): dt.hour.toString();
+                          String m=dt.minute.toString().length==1? "0"+dt.minute.toString(): dt.minute.toString();
+
+                          String time=h+":"+m;
                           String date=dt.day.toString()+"/"+dt.month.toString()+"/"+dt.year.toString();
                           print(time);
                           commentsRef = FirebaseDatabase.instance.ref("CHATS/$id");
@@ -141,7 +147,9 @@ class ChatDetailsState extends State<ChatDetails>{
                           commentsRef2.update({
                             "DoctorSeen": chats.length,
                           });
-
+                          setState(() {
+                            vidCallButtonPress=false;
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => VC(d["channel_name"],d["token"],chatID,id)),
@@ -153,7 +161,8 @@ class ChatDetailsState extends State<ChatDetails>{
                         // );
                       },
                       icon: Icon(Icons.video_call,size: 30,color: Colors.white)
-                  ),
+                  ):
+                  Container(),
                   widget.Prescription_id!=0?
                   IconButton(
                     alignment: Alignment.centerLeft,
@@ -342,7 +351,10 @@ class ChatDetailsState extends State<ChatDetails>{
                           icon: Icon(Icons.send,color: Colors.white,size: 28,),
                           onPressed: () async{
                             var dt = DateTime.now();
-                            String time=dt.hour.toString()+":"+dt.minute.toString();
+                            String h=dt.hour.toString().length==1? "0"+dt.hour.toString(): dt.hour.toString();
+                            String m=dt.minute.toString().length==1? "0"+dt.minute.toString(): dt.minute.toString();
+
+                            String time=h+":"+m;
                             String date=dt.day.toString()+"/"+dt.month.toString()+"/"+dt.year.toString();
                             print(time);
                             commentsRef = FirebaseDatabase.instance.ref("CHATS/$id");

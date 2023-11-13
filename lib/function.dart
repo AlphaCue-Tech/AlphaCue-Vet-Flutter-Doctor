@@ -107,14 +107,15 @@ Future<String> getAppointmentList(String token) async {
 
 
   print(json);
-  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 20),
+
+  var response = await http.get(Uri.parse(url), headers: headers).timeout(Duration(seconds: 40),
       onTimeout: (){
         return http.Response('{"msg":"error"}'.toString(), 408);
       }
   );
   //print(response);
   String body = response.body.toString();
-  //print(body);
+  print(body);
   return body;
 
 

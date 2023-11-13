@@ -178,7 +178,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage>{
                             MaterialPageRoute(builder: (context) => LoginPage()),
                           );
                         },
-                        child: Text("verify".tr,style: TextStyle(color:Theme.of(context).highlightColor, fontSize: 20,fontWeight: FontWeight.bold),)
+                        child: Text("ok".tr,style: TextStyle(color:Theme.of(context).highlightColor, fontSize: 20,fontWeight: FontWeight.bold),)
                     )
                 )
 

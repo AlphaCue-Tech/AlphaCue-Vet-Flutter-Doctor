@@ -27,7 +27,7 @@ List<dynamic>? appointments;
    getAppointmentList(sharedpreff.read("access"))
        .then((value) {
 
-
+     print(value);
      setState(() {
        d=jsonDecode(value);
        appointments= d != null ? List.from(d) : null;

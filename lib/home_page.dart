@@ -68,7 +68,7 @@ class HomePageState extends State<HomePage>{
 
               decoration: BoxDecoration(
                   color: Colors.orange,
-                  shape: BoxShape.circle,
+                  shape: BoxShape.rectangle,
                   image:  DecorationImage(
                     alignment: Alignment.center,
                     matchTextDirection: true,

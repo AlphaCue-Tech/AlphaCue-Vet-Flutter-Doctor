@@ -472,8 +472,8 @@ class PresscriptionState extends State<Presscription>{
 
 
 
-                              if(weight.text.toString().length>0 || temp.text.toString().length>0
-                                  || consult.text.toString().length>0 || advice.text.toString().length>0){
+                              if(weight.text.toString().length>0 && temp.text.toString().length>0
+                                  && consult.text.toString().length>0 && advice.text.toString().length>0){
 
 
                                 for(int i=0;i<medicines.length;i++){
@@ -489,9 +489,6 @@ class PresscriptionState extends State<Presscription>{
                                     s=s+'{"medicine_name":"'+medicines.elementAt(i).name.text+'","dose":"'+medicines.elementAt(i).dose.text+'", "time":"'+ medicines.elementAt(i).time.text +'","note":"'+ medicines.elementAt(i).note.text +'"}';
                                     if(i<medicines.length-1 ){
                                       s=s+',';
-
-
-
 
                                     }
                                     s=' "medicines" :['+s+']';

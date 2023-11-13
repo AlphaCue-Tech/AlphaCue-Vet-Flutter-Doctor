@@ -86,7 +86,7 @@ class VideoCall extends State<VC>{
           child: Stack(
             children: [
               AgoraVideoViewer(
-                  client: client,
+                client: client,
                 showNumberOfUsers: true,
               ),
               AgoraVideoButtons(
@@ -98,24 +98,10 @@ class VideoCall extends State<VC>{
                     commentsRef.update({
                       "active": "no",
 
-
                     });
                     Navigator.pop(context);
                   },
-                  // disconnectButtonChild:  IconButton(
-                  //   icon: Icon(Icons.remove_circle_outline,size: 30,color: Theme.of(context).primaryColor,),
-                  //   onPressed: (){
-                  //
-                  //     try{
-                  //
-                  //       client.release();
-                  //     }catch(er){
-                  //
-                  //     }
-                  //
-                  //      Navigator.pop(context);
-                  //   },
-                  // )
+
               ),
             ],
           ),
